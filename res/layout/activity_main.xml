@@ -8,9 +8,64 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
+    <RatingBar
+        android:id="@+id/food_presentation_ratingbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:layout_below="@+id/food_presentation_label"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/food_presentation_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:text="@string/food_presentation"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RatingBar
+        android:id="@+id/value_for_money_ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/food_presentation_ratingbar"
+        android:layout_below="@+id/food_quality_label" />
+
+    <TextView
+        android:id="@+id/food_quality_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/food_presentation_ratingbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="@string/food_quality"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/value_for_money_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/value_for_money_ratingbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:text="@string/value_for_money"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RatingBar
+        android:id="@+id/food_quality_ratingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/value_for_money_ratingbar"
+        android:layout_below="@+id/value_for_money_label" />
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/submit" />
 
 </RelativeLayout>

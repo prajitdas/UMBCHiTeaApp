@@ -3,6 +3,9 @@
 
     <string name="app_name">UMBC ACM: Hi-Tea Voting</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-
+    <string name="food_presentation">Food Presentation</string>
+    <string name="food_quality">Food Quality</string>
+    <string name="value_for_money">Value for Money</string>
+    <string name="submit">Submit Rating</string>
+    
 </resources>
