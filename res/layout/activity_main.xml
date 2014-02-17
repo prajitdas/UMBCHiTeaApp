@@ -13,7 +13,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/food_presentation_label"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" 
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:rating="1.0"/>
 
     <RatingBar
         android:id="@+id/value_for_money_ratingbar"
@@ -21,7 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/food_presentation_ratingbar"
         android:layout_below="@+id/food_quality_label"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" 
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:rating="1.0"/>
 
     <RatingBar
         android:id="@+id/food_quality_ratingbar"
@@ -29,7 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/value_for_money_ratingbar"
         android:layout_below="@+id/value_for_money_label"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true" 
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:rating="1.0"/>
 
     <TextView
         android:id="@+id/food_presentation_label"
