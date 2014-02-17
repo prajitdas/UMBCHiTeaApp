@@ -1,4 +1,4 @@
-UMBC ACM Student Chapter: Hi-Tea Competition Voting app
-=======================================================
+Hi-Tea Competition Voting App
+=============================
 
-This is a repository for making the Hi-Tea competition's voting app.
+This is a repository for making the UMBC ACM Student Chapter's Hi-Tea competition's voting app.
