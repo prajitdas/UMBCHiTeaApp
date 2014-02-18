@@ -1,17 +1,15 @@
 package edu.umbc.cs.acmstudentchapter.hiteavotingapp;
 
-import edu.umbc.cs.acmstudentchapter.hiteavotingapp.data.DatabaseHandler;
-import edu.umbc.cs.acmstudentchapter.hiteavotingapp.data.UserRating;
-import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
-import android.widget.Toast;
+import edu.umbc.cs.acmstudentchapter.hiteavotingapp.data.DatabaseHandler;
+import edu.umbc.cs.acmstudentchapter.hiteavotingapp.data.UserRating;
 
 public class MainActivity extends Activity {
 
@@ -37,26 +35,23 @@ public class MainActivity extends Activity {
 		addListenerOnValueForMoneyRatingBar();
 		addListenerOnFoodQualityRatingBar();
 		addListenerOnButton();
-		storeInDatabase(getCurrentUserRating());
 	}
 
 	private void storeInDatabase(UserRating aUserRating) {
         DatabaseHandler db = new DatabaseHandler(this);
         
-        /**
-         * CRUD Operations
-         * */
-        // Inserting Contacts
-        Log.d("Insert: ", "Inserting ..");
         try {
         	UserRating tempUserRating = db.getUserRating(aUserRating.getDate());
+//        	Log.v("Msg", "I was here"+tempUserRating.toString());
         	tempUserRating.setRating(tempUserRating.getRating()+aUserRating.getRating());
         	tempUserRating.setVotes(tempUserRating.getVotes()+1.0);
         	db.updateUserRating(tempUserRating);
-    		Toast.makeText(MainActivity.this, aUserRating.toString(), Toast.LENGTH_LONG).show();
+//    		Toast.makeText(MainActivity.this, tempUserRating.toString(), Toast.LENGTH_LONG).show();
+//        	Log.v("Msg", "I was here"+tempUserRating.toString());
         }
         catch (Exception someExcpetion) {
-        	db.addUserRaintg(aUserRating);
+        	db.addUserRating(aUserRating);
+//        	Log.v("Msg", "I was here for the first time"+aUserRating.toString());
         }
 	}
 
@@ -72,6 +67,7 @@ public class MainActivity extends Activity {
 //				Toast.makeText(MainActivity.this,
 //						newUserRating.toString(),
 //						Toast.LENGTH_LONG).show();
+				storeInDatabase(getCurrentUserRating());
 			}
 		});
 	}

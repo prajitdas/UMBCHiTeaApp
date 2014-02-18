@@ -20,7 +20,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String TABLE_RATINGS = "ratings";
 
 	// Contacts Table Columns names
-	private static final String KEY_ID = "id";
+//	private static final String KEY_ID = "id";
 	private static final String KEY_DATE = "date";
 	private static final String KEY_RATINGS = "ratings";
 	private static final String KEY_NUMBER_OF_VOTES = "numberofvotes";
@@ -33,8 +33,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		String CREATE_RATINGS_TABLE = "CREATE TABLE " + TABLE_RATINGS + "("
-				+ KEY_ID + " INTEGER PRIMARY KEY,"
-				+ KEY_DATE + " TEXT,"
+//				+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ KEY_DATE + " TEXT PRIMARY KEY,"
 				+ KEY_RATINGS + " REAL,"
 				+ KEY_NUMBER_OF_VOTES + " REAL" + ")";
 		db.execSQL(CREATE_RATINGS_TABLE);
@@ -54,9 +54,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * All CRUD(Create, Read, Update, Delete) Operations
 	 */
 
-	// Adding new uer raing
-	public void addUserRaintg(UserRating rating) {
+	// Adding new user rating
+	public void addUserRating(UserRating rating) {
 		SQLiteDatabase db = this.getWritableDatabase();
+		rating.setDate();
 
 		ContentValues values = new ContentValues();
 		values.put(KEY_DATE, rating.getDate()); // current date
@@ -72,19 +73,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public UserRating getUserRating(String date) throws NoDataFoundExcpetion {
 		SQLiteDatabase db = this.getReadableDatabase();
 		UserRating aUserRating = null;
-		Cursor cursor = db.query(TABLE_RATINGS, new String[] { KEY_ID, KEY_DATE, KEY_RATINGS, KEY_NUMBER_OF_VOTES }, KEY_DATE + "=?",
+		Cursor cursor = db.query(TABLE_RATINGS, new String[] { 
+//				KEY_ID, 
+				KEY_DATE, KEY_RATINGS, KEY_NUMBER_OF_VOTES }, KEY_DATE + "=?",
 				new String[] { String.valueOf(date) }, null, null, null, null);
 		if (cursor != null) 
 			cursor.moveToFirst();
 		else
 			throw new NoDataFoundExcpetion();
-		try {
-			aUserRating = new UserRating(Integer.parseInt(cursor.getString(0)), cursor.getString(1), 
-					cursor.getDouble(2), cursor.getDouble(3));
-		}
-		catch (Exception exception) {
-			
-		}
+		aUserRating = new UserRating(
+//				Integer.parseInt(cursor.getString(0)),
+				cursor.getString(0), 
+				cursor.getDouble(1),
+				cursor.getDouble(2));
 		return aUserRating;
 	}
 	
@@ -93,14 +94,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
-		values.put(KEY_ID, aUserRating.getDatabaseReference());
+//		values.put(KEY_ID, aUserRating.getDatabaseReference());
 		values.put(KEY_DATE, aUserRating.getDate());
 		values.put(KEY_RATINGS, aUserRating.getRating());
 		values.put(KEY_NUMBER_OF_VOTES, aUserRating.getVotes());
 
 		// updating row
-		return db.update(TABLE_RATINGS, values, KEY_ID + " = ?",
-				new String[] { String.valueOf(aUserRating.getDatabaseReference()) });
+		return db.update(TABLE_RATINGS, values, KEY_DATE + " = ?",
+				new String[] {aUserRating.getDate()});
 	}
 
 //	// Getting All Contacts - NOT NEEDED NOW

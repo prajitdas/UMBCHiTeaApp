@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class UserRating {
 	
-	private int databaseReference;
+//	private int databaseReference;
 	private String date;
 	private double foodPresentationRating;
 
@@ -31,20 +31,20 @@ public class UserRating {
 		setVotes(1.0);
 	}
 
-	public UserRating(int id, String date, double rating, double votes) {
+	public UserRating(String date, double rating, double votes) {
 		setDate(date);
 		setRating(rating);
 		setVotes(votes);
-		setDatabaseReference(id);
+//		setDatabaseReference(id);
 	}
 
 	public UserRating() {
 		
 	}
 	
-	public int getDatabaseReference() {
-		return databaseReference;
-	}
+//	public int getDatabaseReference() {
+//		return databaseReference;
+//	}
 
 	public String getDate() {
 		return date;
@@ -70,13 +70,13 @@ public class UserRating {
 		return votes;
 	}
 
-	public void setDatabaseReference(int databaseReference) {
-		this.databaseReference = databaseReference;
-	}
+//	public void setDatabaseReference(int databaseReference) {
+//		this.databaseReference = databaseReference;
+//	}
 
 	public void setDate() {
 		long yourmilliseconds = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
 
         Date aDate = new Date(yourmilliseconds);
         date = sdf.format(aDate);
@@ -112,6 +112,10 @@ public class UserRating {
 
 	@Override
 	public String toString() {
-		return getDatabaseReference()+getDate()+Double.toString(getRating())+getVotes();
+		return 
+//				getDatabaseReference()+","+
+				getDate()+","+
+				Double.toString(getRating())+","+
+				getVotes();
 	}
 }
