@@ -1,14 +1,15 @@
 package edu.umbc.cs.acmstudentchapter.hiteavotingapp;
 
+import edu.umbc.cs.acmstudentchapter.hiteavotingapp.data.DatabaseHandler;
 import edu.umbc.cs.acmstudentchapter.hiteavotingapp.data.UserRating;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RatingBar;
-import android.widget.Toast;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
 public class MainActivity extends Activity {
@@ -17,9 +18,11 @@ public class MainActivity extends Activity {
 	private RatingBar foodQualityRatingBar;
 	private RatingBar valueForMoneyRatingBar;
 
-	private float foodPresentationRating;
-	private float foodQualityRating;
-	private float valueForMoneyRating;
+	private double foodPresentationRating;
+	private double foodQualityRating;
+	private double valueForMoneyRating;
+	
+	private UserRating currentUserRating;
 	
 	private Button submitButton;
 	
@@ -31,19 +34,40 @@ public class MainActivity extends Activity {
 		addListenerOnValueForMoneyRatingBar();
 		addListenerOnFoodQualityRatingBar();
 		addListenerOnButton();
+		storeInDatabase(getCurrentUserRating());
+	}
+
+	private void storeInDatabase(UserRating aUserRating) {
+        DatabaseHandler db = new DatabaseHandler(this);
+        
+        /**
+         * CRUD Operations
+         * */
+        // Inserting Contacts
+        Log.d("Insert: ", "Inserting ..");
+        if(db.getUserRating(aUserRating.getDate()) == null) {
+        	db.addUserRaintg(aUserRating);
+        }
+        else {
+        	UserRating tempUserRating = db.getUserRating(aUserRating.getDate());
+        	tempUserRating.setRating(tempUserRating.getRating()+aUserRating.getRating());
+        	tempUserRating.setVotes(tempUserRating.getVotes()+1.0);
+        	db.updateUserRating(tempUserRating);
+        }
 	}
 
 	private void addListenerOnButton() {
 		submitButton = (Button) findViewById(R.id.submit_button);
-
+		
 		//if click on me, then display the current rating value.
 		submitButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				UserRating newUserRating = new UserRating(foodPresentationRating, foodQualityRating, valueForMoneyRating);
-				Toast.makeText(MainActivity.this,
-						newUserRating.toString(),
-						Toast.LENGTH_LONG).show();
+				setCurrentUserRating(new UserRating(foodPresentationRating, foodQualityRating, valueForMoneyRating));
+				//This is the point where the data has been collected and needs to be stored
+//				Toast.makeText(MainActivity.this,
+//						newUserRating.toString(),
+//						Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -55,7 +79,7 @@ public class MainActivity extends Activity {
 		//store the current rating value in the result (float) automatically
 		foodQualityRatingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-				setFoodQualityRating(rating);
+				setFoodQualityRating((double) rating);
 			}
 		});
 	}
@@ -67,7 +91,7 @@ public class MainActivity extends Activity {
 		//store the current rating value in the result (float) automatically
 		valueForMoneyRatingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-				setValueForMoneyRating(rating);
+				setValueForMoneyRating((double) rating);
 			}
 		});
 	}
@@ -79,7 +103,7 @@ public class MainActivity extends Activity {
 		//store the current rating value in the result (float) automatically
 		foodPresentationRatingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
 			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-				setFoodPresentationRating(rating);
+				setFoodPresentationRating((double) rating);
 			}
 		});
 	}
@@ -91,28 +115,36 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	public float getFoodPresentationRating() {
+	public double getFoodPresentationRating() {
 		return foodPresentationRating;
 	}
 
-	public void setFoodPresentationRating(float rating) {
+	public void setFoodPresentationRating(double rating) {
 		this.foodPresentationRating = rating;
 	}
 
-	public float getFoodQualityRating() {
+	public double getFoodQualityRating() {
 		return foodQualityRating;
 	}
 
-	public void setFoodQualityRating(float foodQualityRating) {
+	public void setFoodQualityRating(double foodQualityRating) {
 		this.foodQualityRating = foodQualityRating;
 	}
 
-	public float getValueForMoneyRating() {
+	public double getValueForMoneyRating() {
 		return valueForMoneyRating;
 	}
 
-	public void setValueForMoneyRating(float valueForMoneyRating) {
+	public void setValueForMoneyRating(double valueForMoneyRating) {
 		this.valueForMoneyRating = valueForMoneyRating;
+	}
+
+	public UserRating getCurrentUserRating() {
+		return currentUserRating;
+	}
+
+	public void setCurrentUserRating(UserRating currentUserRating) {
+		this.currentUserRating = currentUserRating;
 	}
 
 }
