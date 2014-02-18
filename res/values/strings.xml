@@ -7,5 +7,8 @@
     <string name="food_quality">Food Quality</string>
     <string name="value_for_money">Value for Money</string>
     <string name="submit">Submit Rating</string>
-    
+    <string name="wait">Please wait&#8230;</string>
+    <string name="title_activity_data_transfer">DataTransferActivity</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

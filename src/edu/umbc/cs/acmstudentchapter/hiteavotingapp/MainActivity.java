@@ -2,6 +2,7 @@ package edu.umbc.cs.acmstudentchapter.hiteavotingapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +31,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		currentUserRating = new UserRating();
+		submitButton = (Button) findViewById(R.id.submit_button);      
+	    currentUserRating = new UserRating();
 		addListenerOnFoodPresentationRatingBar();
 		addListenerOnValueForMoneyRatingBar();
 		addListenerOnFoodQualityRatingBar();
@@ -56,8 +58,6 @@ public class MainActivity extends Activity {
 	}
 
 	private void addListenerOnButton() {
-		submitButton = (Button) findViewById(R.id.submit_button);
-		
 		//if click on me, then display the current rating value.
 		submitButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -68,6 +68,14 @@ public class MainActivity extends Activity {
 //						newUserRating.toString(),
 //						Toast.LENGTH_LONG).show();
 				storeInDatabase(getCurrentUserRating());
+				submitButton.setEnabled(false);
+				submitButton.setText(R.string.wait);
+		        new Handler().postDelayed(new Runnable() {
+		            @Override
+		            public void run() {
+		            	submitButton.setEnabled(true);
+						submitButton.setText(R.string.submit);
+		            }}, 10000);
 			}
 		});
 	}
