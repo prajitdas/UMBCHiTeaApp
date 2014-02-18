@@ -1,5 +1,6 @@
 package edu.umbc.cs.acmstudentchapter.hiteavotingapp.data;
 
+import edu.umbc.cs.acmstudentchapter.hiteavotingapp.exception.NoDataFoundExcpetion;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -68,19 +69,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	}
 
 	// Getting single user rating
-	public UserRating getUserRating(String date) {
+	public UserRating getUserRating(String date) throws NoDataFoundExcpetion {
 		SQLiteDatabase db = this.getReadableDatabase();
-
+		UserRating aUserRating = null;
 		Cursor cursor = db.query(TABLE_RATINGS, new String[] { KEY_ID, KEY_DATE, KEY_RATINGS, KEY_NUMBER_OF_VOTES }, KEY_DATE + "=?",
 				new String[] { String.valueOf(date) }, null, null, null, null);
-		if (cursor != null) {
+		if (cursor != null) 
 			cursor.moveToFirst();
-			UserRating aUserRating = new UserRating(Integer.parseInt(cursor.getString(0)),
-				cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3));
-			// return rating
-			return aUserRating;
+		else
+			throw new NoDataFoundExcpetion();
+		try {
+			aUserRating = new UserRating(Integer.parseInt(cursor.getString(0)), cursor.getString(1), 
+					cursor.getDouble(2), cursor.getDouble(3));
 		}
-		return null;
+		catch (Exception exception) {
+			
+		}
+		return aUserRating;
 	}
 	
 	// Updating single user rating

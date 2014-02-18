@@ -38,6 +38,10 @@ public class UserRating {
 		setDatabaseReference(id);
 	}
 
+	public UserRating() {
+		
+	}
+	
 	public int getDatabaseReference() {
 		return databaseReference;
 	}
@@ -108,6 +112,6 @@ public class UserRating {
 
 	@Override
 	public String toString() {
-		return Double.toString(getRating());
+		return getDatabaseReference()+getDate()+Double.toString(getRating())+getVotes();
 	}
 }

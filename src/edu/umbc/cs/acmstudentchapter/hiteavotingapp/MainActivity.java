@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -30,6 +31,8 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		currentUserRating = new UserRating();
 		addListenerOnFoodPresentationRatingBar();
 		addListenerOnValueForMoneyRatingBar();
 		addListenerOnFoodQualityRatingBar();
@@ -45,14 +48,15 @@ public class MainActivity extends Activity {
          * */
         // Inserting Contacts
         Log.d("Insert: ", "Inserting ..");
-        if(db.getUserRating(aUserRating.getDate()) == null) {
-        	db.addUserRaintg(aUserRating);
-        }
-        else {
+        try {
         	UserRating tempUserRating = db.getUserRating(aUserRating.getDate());
         	tempUserRating.setRating(tempUserRating.getRating()+aUserRating.getRating());
         	tempUserRating.setVotes(tempUserRating.getVotes()+1.0);
         	db.updateUserRating(tempUserRating);
+    		Toast.makeText(MainActivity.this, aUserRating.toString(), Toast.LENGTH_LONG).show();
+        }
+        catch (Exception someExcpetion) {
+        	db.addUserRaintg(aUserRating);
         }
 	}
 
