@@ -2,7 +2,9 @@ package edu.umbc.cs.acmstudentchapter.hiteavotingapp;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,6 +43,7 @@ public class MainActivity extends Activity {
 
 	private void storeInDatabase(UserRating aUserRating) {
         DatabaseHandler db = new DatabaseHandler(this);
+        Log.v("Msg", Environment.getDataDirectory().toString());
         
         try {
         	UserRating tempUserRating = db.getUserRating(aUserRating.getDate());
@@ -48,6 +51,7 @@ public class MainActivity extends Activity {
         	tempUserRating.setRating(tempUserRating.getRating()+aUserRating.getRating());
         	tempUserRating.setVotes(tempUserRating.getVotes()+1.0);
         	db.updateUserRating(tempUserRating);
+//            Log.v("Msg", Environment.getDataDirectory().toString());
 //    		Toast.makeText(MainActivity.this, tempUserRating.toString(), Toast.LENGTH_LONG).show();
 //        	Log.v("Msg", "I was here"+tempUserRating.toString());
         }
