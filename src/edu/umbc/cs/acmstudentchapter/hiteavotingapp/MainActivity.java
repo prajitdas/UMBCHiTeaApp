@@ -1,6 +1,7 @@
 package edu.umbc.cs.acmstudentchapter.hiteavotingapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -27,13 +28,23 @@ public class MainActivity extends Activity {
 	private UserRating currentUserRating;
 	
 	private Button submitButton;
+	private Button resultsButton;
 	
+	private static DatabaseHandler db;
+	
+	public static DatabaseHandler getDb() {
+		return db;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		submitButton = (Button) findViewById(R.id.submit_button);      
+		db = new DatabaseHandler(this);
+		submitButton = (Button) findViewById(R.id.submit_button);
+		resultsButton = (Button) findViewById(R.id.results_button);
+		resultsButton.setEnabled(true);
 	    currentUserRating = new UserRating();
 		addListenerOnFoodPresentationRatingBar();
 		addListenerOnValueForMoneyRatingBar();
@@ -42,7 +53,6 @@ public class MainActivity extends Activity {
 	}
 
 	private void storeInDatabase(UserRating aUserRating) {
-        DatabaseHandler db = new DatabaseHandler(this);
         Log.v("Msg", Environment.getDataDirectory().toString());
         
         try {
@@ -81,6 +91,13 @@ public class MainActivity extends Activity {
 						submitButton.setText(R.string.submit);
 		            }}, 10000);
 			}
+		});
+		resultsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent myIntent = new Intent(v.getContext(),
+						ResultsActivity.class);
+				startActivity(myIntent);			}
 		});
 	}
 

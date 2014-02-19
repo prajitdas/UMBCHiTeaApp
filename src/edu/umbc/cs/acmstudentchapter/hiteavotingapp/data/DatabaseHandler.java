@@ -1,5 +1,6 @@
 package edu.umbc.cs.acmstudentchapter.hiteavotingapp.data;
 
+import java.util.ArrayList;
 import edu.umbc.cs.acmstudentchapter.hiteavotingapp.exception.NoDataFoundExcpetion;
 import android.content.ContentValues;
 import android.content.Context;
@@ -33,7 +34,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		String CREATE_RATINGS_TABLE = "CREATE TABLE " + TABLE_RATINGS + "("
-//				+ KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ KEY_DATE + " TEXT PRIMARY KEY,"
 				+ KEY_RATINGS + " REAL,"
 				+ KEY_NUMBER_OF_VOTES + " REAL" + ")";
@@ -104,48 +104,47 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				new String[] {aUserRating.getDate()});
 	}
 
-//	// Getting All Contacts - NOT NEEDED NOW
-//	public List<Contact> getAllContacts() {
-//		List<Contact> contactList = new ArrayList<Contact>();
-//		// Select All Query
-//		String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
-//
-//		SQLiteDatabase db = this.getWritableDatabase();
-//		Cursor cursor = db.rawQuery(selectQuery, null);
-//
-//		// looping through all rows and adding to list
-//		if (cursor.moveToFirst()) {
-//			do {
-//				Contact contact = new Contact();
-//				contact.setID(Integer.parseInt(cursor.getString(0)));
-//				contact.setName(cursor.getString(1));
-//				contact.setPhoneNumber(cursor.getString(2));
-//				// Adding contact to list
-//				contactList.add(contact);
-//			} while (cursor.moveToNext());
-//		}
-//
-//		// return contact list
-//		return contactList;
-//	}
+	// Getting All Ratings data
+	public ArrayList<UserRating> getAllContacts() {
+		ArrayList<UserRating> userRatingList = new ArrayList<UserRating>();
+		// Select All Query
+		String selectQuery = "SELECT  * FROM " + TABLE_RATINGS;
 
-//	// Deleting single contact - NOT REQUIRED NOW
-//	public void deleteContact(Contact contact) {
-//		SQLiteDatabase db = this.getWritableDatabase();
-//		db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
-//				new String[] { String.valueOf(contact.getID()) });
-//		db.close();
-//	}
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
 
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				UserRating userRating = new UserRating();
+				userRating.setDate(cursor.getString(0));
+				userRating.setRating(cursor.getDouble(1));
+				userRating.setVotes(cursor.getDouble(2));
+				// Adding contact to list
+				userRatingList.add(userRating);
+			} while (cursor.moveToNext());
+		}
 
-//	// Getting contacts Count - NOT REQUIRED NOW
-//	public int getContactsCount() {
-//		String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
-//		SQLiteDatabase db = this.getReadableDatabase();
-//		Cursor cursor = db.rawQuery(countQuery, null);
-//		cursor.close();
-//
-//		// return count
-//		return cursor.getCount();
-//	}
+		// return contact list
+		return userRatingList;
+	}
+
+	// Deleting single contact
+	public void deleteContact(UserRating userRating) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_RATINGS, KEY_DATE + " = ?",
+				new String[] { String.valueOf(userRating.getDate()) });
+		db.close();
+	}
+
+	// Getting user rating Count
+	public int getContactsCount() {
+		String countQuery = "SELECT  * FROM " + TABLE_RATINGS;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.rawQuery(countQuery, null);
+		cursor.close();
+
+		// return count
+		return cursor.getCount();
+	}
 }

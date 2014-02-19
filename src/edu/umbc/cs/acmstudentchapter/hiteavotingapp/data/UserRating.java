@@ -12,7 +12,6 @@ import java.util.Date;
  */
 public class UserRating {
 	
-//	private int databaseReference;
 	private String date;
 	private double foodPresentationRating;
 
@@ -35,17 +34,12 @@ public class UserRating {
 		setDate(date);
 		setRating(rating);
 		setVotes(votes);
-//		setDatabaseReference(id);
 	}
 
 	public UserRating() {
 		
 	}
 	
-//	public int getDatabaseReference() {
-//		return databaseReference;
-//	}
-
 	public String getDate() {
 		return date;
 	}
@@ -70,10 +64,6 @@ public class UserRating {
 		return votes;
 	}
 
-//	public void setDatabaseReference(int databaseReference) {
-//		this.databaseReference = databaseReference;
-//	}
-
 	public void setDate() {
 		long yourmilliseconds = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
@@ -82,7 +72,7 @@ public class UserRating {
         date = sdf.format(aDate);
 	}
 	
-	private void setDate(String date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -113,9 +103,8 @@ public class UserRating {
 	@Override
 	public String toString() {
 		return 
-//				getDatabaseReference()+","+
 				getDate()+","+
 				Double.toString(getRating())+","+
-				getVotes();
+				getVotes()+"\n";
 	}
 }
