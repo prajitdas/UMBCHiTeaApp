@@ -23,9 +23,9 @@ public class MainActivity extends Activity {
 	private RatingBar foodQualityRatingBar;
 	private RatingBar valueForMoneyRatingBar;
 
-	private double foodPresentationRating;
-	private double foodQualityRating;
-	private double valueForMoneyRating;
+	private double foodPresentationRating = 1.0;
+	private double foodQualityRating = 1.0;
+	private double valueForMoneyRating = 1.0;
 	
 	private UserRating currentUserRating;
 	
