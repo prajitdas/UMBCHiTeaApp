@@ -87,8 +87,8 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/submit_button"
+        android:layout_centerHorizontal="true"
         android:text="@string/show_results" />
 
 </RelativeLayout>

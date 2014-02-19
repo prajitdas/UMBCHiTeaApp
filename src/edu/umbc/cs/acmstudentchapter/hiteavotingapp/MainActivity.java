@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
+import android.widget.Toast;
 import edu.umbc.cs.acmstudentchapter.hiteavotingapp.data.DatabaseHandler;
 import edu.umbc.cs.acmstudentchapter.hiteavotingapp.data.UserRating;
 
@@ -42,11 +44,20 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		db = new DatabaseHandler(this);
+    	currentUserRating = new UserRating();
+		
+		foodQualityRatingBar = (RatingBar) findViewById(R.id.food_quality_ratingbar);
+		valueForMoneyRatingBar = (RatingBar) findViewById(R.id.value_for_money_ratingbar);
+		foodPresentationRatingBar = (RatingBar) findViewById(R.id.food_presentation_ratingbar);
+
 		submitButton = (Button) findViewById(R.id.submit_button);
-		resultsButton = (Button) findViewById(R.id.results_button);
-		resultsButton.setEnabled(true);
-	    currentUserRating = new UserRating();
-		addListenerOnFoodPresentationRatingBar();
+    	submitButton.setEnabled(true);
+
+    	resultsButton = (Button) findViewById(R.id.results_button);
+    	// use this part of the code to see results 
+    	resultsButton.setVisibility(View.GONE);
+
+    	addListenerOnFoodPresentationRatingBar();
 		addListenerOnValueForMoneyRatingBar();
 		addListenerOnFoodQualityRatingBar();
 		addListenerOnButton();
@@ -77,10 +88,13 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				setCurrentUserRating(new UserRating(foodPresentationRating, foodQualityRating, valueForMoneyRating));
+				
+				Toast aToast = Toast.makeText(MainActivity.this,"Your rating is being submitted!\nThank you!",Toast.LENGTH_LONG);
+				aToast.setGravity(Gravity.CENTER, 0, 0);
+				aToast.setDuration(5000);// Now you can set Toast Duration in Milliseconds here,its 1-sec Now
+				aToast.show();
+				
 				//This is the point where the data has been collected and needs to be stored
-//				Toast.makeText(MainActivity.this,
-//						newUserRating.toString(),
-//						Toast.LENGTH_LONG).show();
 				storeInDatabase(getCurrentUserRating());
 				submitButton.setEnabled(false);
 				submitButton.setText(R.string.wait);
@@ -89,7 +103,10 @@ public class MainActivity extends Activity {
 		            public void run() {
 		            	submitButton.setEnabled(true);
 						submitButton.setText(R.string.submit);
-		            }}, 10000);
+		            }}, 7000);
+		        foodPresentationRatingBar.setRating(1.0f);
+		    	foodQualityRatingBar.setRating(1.0f);
+		    	valueForMoneyRatingBar.setRating(1.0f);
 			}
 		});
 		resultsButton.setOnClickListener(new OnClickListener() {
@@ -102,8 +119,6 @@ public class MainActivity extends Activity {
 	}
 
 	private void addListenerOnFoodQualityRatingBar() {
-		foodQualityRatingBar = (RatingBar) findViewById(R.id.food_quality_ratingbar);
-
 		//if rating is changed,
 		//store the current rating value in the result (float) automatically
 		foodQualityRatingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
@@ -114,8 +129,6 @@ public class MainActivity extends Activity {
 	}
 
 	private void addListenerOnValueForMoneyRatingBar() {
-		valueForMoneyRatingBar = (RatingBar) findViewById(R.id.value_for_money_ratingbar);
-
 		//if rating is changed,
 		//store the current rating value in the result (float) automatically
 		valueForMoneyRatingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
@@ -126,8 +139,6 @@ public class MainActivity extends Activity {
 	}
 
 	private void addListenerOnFoodPresentationRatingBar() {
-		foodPresentationRatingBar = (RatingBar) findViewById(R.id.food_presentation_ratingbar);
-
 		//if rating is changed,
 		//store the current rating value in the result (float) automatically
 		foodPresentationRatingBar.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
