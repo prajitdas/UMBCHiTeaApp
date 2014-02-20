@@ -5,6 +5,7 @@ package edu.umbc.cs.acmstudentchapter.hiteavotingapp.data;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author Prajit
@@ -66,7 +67,7 @@ public class UserRating {
 
 	public void setDate() {
 		long yourmilliseconds = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM-dd-yyyy", Locale.US);
 
         Date aDate = new Date(yourmilliseconds);
         date = sdf.format(aDate);
