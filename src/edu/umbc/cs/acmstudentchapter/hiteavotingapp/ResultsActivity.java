@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.TextView;
 import edu.umbc.cs.acmstudentchapter.hiteavotingapp.data.DatabaseHandler;
 import edu.umbc.cs.acmstudentchapter.hiteavotingapp.data.UserRating;
@@ -24,12 +23,12 @@ public class ResultsActivity extends Activity {
 		
 		resultsTextView.setText(userRatingList.toString());
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.results, menu);
-		return true;
-	}
-
+//
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu; this adds items to the action bar if it is present.
+//		getMenuInflater().inflate(R.menu.results, menu);
+//		return true;
+//	}
+//
 }

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -30,7 +31,7 @@ public class MainActivity extends Activity {
 	private UserRating currentUserRating;
 	
 	private Button submitButton;
-	private Button resultsButton;
+//	private Button resultsButton;
 	
 	private static DatabaseHandler db;
 	
@@ -41,11 +42,13 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
-		db = new DatabaseHandler(this);
-    	currentUserRating = new UserRating();
-		
+		setContentView(R.layout.activity_main);		
+
+		init();
+    	addOnClickListener();
+	}
+
+	private void init() {
 		foodQualityRatingBar = (RatingBar) findViewById(R.id.food_quality_ratingbar);
 		valueForMoneyRatingBar = (RatingBar) findViewById(R.id.value_for_money_ratingbar);
 		foodPresentationRatingBar = (RatingBar) findViewById(R.id.food_presentation_ratingbar);
@@ -53,10 +56,15 @@ public class MainActivity extends Activity {
 		submitButton = (Button) findViewById(R.id.submit_button);
     	submitButton.setEnabled(true);
 
-    	resultsButton = (Button) findViewById(R.id.results_button);
-    	// use this part of the code to see results 
-    	resultsButton.setVisibility(View.GONE);
+		db = new DatabaseHandler(this);
+    	currentUserRating = new UserRating();
+		
+//    	resultsButton = (Button) findViewById(R.id.results_button);
+//    	// use this part of the code to see results 
+//    	resultsButton.setVisibility(View.GONE);
+    }
 
+	private void addOnClickListener() {
     	addListenerOnFoodPresentationRatingBar();
 		addListenerOnValueForMoneyRatingBar();
 		addListenerOnFoodQualityRatingBar();
@@ -109,13 +117,13 @@ public class MainActivity extends Activity {
 		    	valueForMoneyRatingBar.setRating(1.0f);
 			}
 		});
-		resultsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent myIntent = new Intent(v.getContext(),
-						ResultsActivity.class);
-				startActivity(myIntent);			}
-		});
+//		resultsButton.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				Intent myIntent = new Intent(v.getContext(),
+//						ResultsActivity.class);
+//				startActivity(myIntent);			}
+//		});
 	}
 
 	private void addListenerOnFoodQualityRatingBar() {
@@ -153,6 +161,24 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menu) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch(menu.getItemId()) {
+			case R.id.show_results:
+				/**
+				 * Show results
+				 */
+				Intent myIntent = new Intent(this, ResultsActivity.class);
+				startActivity(myIntent);
+				return true;
+			default:
+				return super.onOptionsItemSelected(menu);
+		}
 	}
 
 	public double getFoodPresentationRating() {
